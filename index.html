@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manor Multi-Site Migration | Scale &amp; Options Overview</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root{
+    --navy:#0e1f3d; --navy2:#16294d; --ink:#17233b; --muted:#5b6b85;
+    --blue:#2563eb; --blue-soft:#eaf1ff; --green:#0f9d6c; --green-soft:#e6f7f0;
+    --amber:#d97706; --amber-soft:#fdf3e3; --red:#dc2626; --red-soft:#fdeaea;
+    --card:#ffffff; --border:#e6ecf5; --bg:#f5f7fb;
+  }
+  *{font-family:'Inter',system-ui,-apple-system,sans-serif;}
+  body{background:var(--bg); color:var(--ink);}
+  h1,h2,h3,h4,h5{font-weight:700; color:var(--navy); letter-spacing:-0.02em;}
+  .hero{background:linear-gradient(135deg,#0e1f3d 0%,#1d3a6b 55%,#2b4a86 100%); color:#fff; padding:4rem 0 5rem;}
+  .hero .eyebrow{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; color:#9fb6d8; font-weight:600;}
+  .hero h1{color:#fff; font-weight:800;}
+  .hero .lede{color:#c9d6ea; max-width:720px; font-size:1.05rem;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.25rem 1.4rem; height:100%;}
+  .kpi .num{font-size:2rem; font-weight:800; color:var(--navy); line-height:1;}
+  .kpi .lbl{color:var(--muted); font-size:.85rem; font-weight:500; margin-top:.35rem;}
+  .section{padding:3.25rem 0;}
+  .section-tag{letter-spacing:.16em; text-transform:uppercase; font-size:.72rem; font-weight:700; color:var(--blue);}
+  .card{border:1px solid var(--border); border-radius:16px; background:var(--card);}
+  .chart-wrap{position:relative; height:320px;}
+  .chart-wrap.sm{height:260px;}
+  .legend-dot{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:.4rem;}
+  .table{--bs-table-hover-bg:#f4f7fc; font-size:.92rem;}
+  .table thead th{font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); border-bottom:2px solid var(--border);}
+  .badge-soft{font-weight:600; padding:.32rem .6rem; border-radius:8px; font-size:.78rem;}
+  .tier-a{background:var(--red-soft); color:#b91c1c;}
+  .tier-b{background:var(--amber-soft); color:#b45309;}
+  .tier-c{background:var(--blue-soft); color:#1d4ed8;}
+  .tier-d{background:#eef1f6; color:#5b6b85;}
+  .plan{border-top:4px solid var(--blue);}
+  .plan.b{border-top:4px solid var(--green);}
+  .pros li, .cons li{margin-bottom:.4rem;}
+  .pros li::marker{color:var(--green);}
+  .cons li::marker{color:var(--red);}
+  .rec{background:linear-gradient(135deg,#eaf1ff,#f4f9ff); border:1px solid #d6e4ff; border-radius:16px;}
+  .foot{color:var(--muted); font-size:.8rem;}
+  .chip{display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); color:#fff; border-radius:999px; padding:.3rem .8rem; font-size:.82rem; font-weight:600;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="eyebrow mb-2">Manor | Multi-Site Acquisition Migration</div>
+    <h1 class="display-4 mb-3">Bringing six med-spa brands into one</h1>
+    <p class="lede mb-4">A consolidated view of the work required to move six acquired practices into thisismanor.com, preserve their search traffic, and scale the national brand. Everything below is planning only; no production changes have been made.</p>
+    <div class="d-flex flex-wrap gap-2">
+      <span class="chip">6 sites</span>
+      <span class="chip">1,038 source URLs</span>
+      <span class="chip">~10 locations</span>
+      <span class="chip">~1,448 visits / month combined</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- KPI ROW -->
+  <section class="mt-n5 mb-2" style="position:relative; z-index:2;">
+    <div class="row g-3">
+      <div class="col-6 col-md-3"><div class="kpi"><div class="num">6</div><div class="lbl">Acquired sites (Influx CMS)</div></div></div>
+      <div class="col-6 col-md-3"><div class="kpi"><div class="num">1,038</div><div class="lbl">Source URLs in sitemaps</div></div></div>
+      <div class="col-6 col-md-3"><div class="kpi"><div class="num">~10</div><div class="lbl">Physical locations</div></div></div>
+      <div class="col-6 col-md-3"><div class="kpi"><div class="num">~1,448</div><div class="lbl">Est. monthly organic visits</div></div></div>
+    </div>
+  </section>
+
+  <!-- SITE EQUITY -->
+  <section class="section">
+    <div class="mb-3"><span class="section-tag">01 · Where the value is</span>
+      <h2 class="mt-1">Search equity is concentrated in one site</h2>
+      <p class="text-muted">Blume Skin &amp; Body carries most of the authority. The migration plan protects it first and treats every other site proportionally.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="card p-4 h-100">
+          <h6 class="text-muted text-uppercase" style="font-size:.72rem; letter-spacing:.05em;">Estimated organic traffic (visits / month)</h6>
+          <div class="chart-wrap"><canvas id="trafficChart"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="card p-4 h-100">
+          <h6 class="text-muted text-uppercase" style="font-size:.72rem; letter-spacing:.05em;">Domain Rating (Ahrefs)</h6>
+          <div class="chart-wrap"><canvas id="drChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4 overflow-hidden">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead><tr><th>Site</th><th>Locations</th><th>DR</th><th>Backlinks</th><th>Traffic / mo</th><th>URLs</th><th>Treatment</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Blume Skin &amp; Body</strong><br><span class="text-muted small">Scottsdale, AZ</span></td><td>1</td><td><span class="badge-soft tier-a">37</span></td><td>42.1K</td><td>501</td><td>571</td><td>Protect first</td></tr>
+            <tr><td><strong>Aere Aesthetics</strong><br><span class="text-muted small">Denver, CO · Beverly Hills, CA</span></td><td>2</td><td><span class="badge-soft tier-c">11</span></td><td>600</td><td>384</td><td>154</td><td>Migrate</td></tr>
+            <tr><td><strong>All About Me AZ</strong><br><span class="text-muted small">Arizona</span></td><td>1</td><td><span class="badge-soft tier-c">9</span></td><td>5.8K</td><td>292</td><td>43</td><td>Migrate</td></tr>
+            <tr><td><strong>Marvel Cosmetic Med Spa</strong><br><span class="text-muted small">4 TN markets</span></td><td>4</td><td><span class="badge-soft tier-c">17</span></td><td>1.1K</td><td>127</td><td>124</td><td>Migrate</td></tr>
+            <tr><td><strong>Ageless Santa Fe</strong><br><span class="text-muted small">Santa Fe, NM</span></td><td>1</td><td><span class="badge-soft tier-c">6</span></td><td>883</td><td>141</td><td>122</td><td>Migrate</td></tr>
+            <tr><td><strong>Manor Med Spa (legacy)</strong><br><span class="text-muted small">predecessor brand</span></td><td>&mdash;</td><td><span class="badge-soft tier-d">1.2</span></td><td>832</td><td>3</td><td>24</td><td>Retire</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- URL DISPOSITION -->
+  <section class="section">
+    <div class="mb-3"><span class="section-tag">02 · What happens to each URL</span>
+      <h2 class="mt-1">Four outcomes for 1,038 URLs</h2>
+      <p class="text-muted">Nearly 40% of source URLs are low-value galleries and utility pages that can be retired rather than migrated.</p>
+    </div>
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-5">
+        <div class="card p-4"><div class="chart-wrap"><canvas id="dispositionChart"></canvas></div></div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card p-4 h-100">
+          <ul class="list-unstyled mb-0">
+            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#2563eb"></span><strong class="me-2">Rebuild then redirect</strong><span class="text-muted small me-auto">new Manor page built first</span><span class="fw-bold">321</span></li>
+            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#0f9d6c"></span><strong class="me-2">Merge and redirect</strong><span class="text-muted small me-auto">consolidated into one page</span><span class="fw-bold">293</span></li>
+            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#9aa7bd"></span><strong class="me-2">Retire</strong><span class="text-muted small me-auto">no search or link value</span><span class="fw-bold">414</span></li>
+            <li class="d-flex align-items-center py-2"><span class="legend-dot" style="background:#d97706"></span><strong class="me-2">Direct redirect</strong><span class="text-muted small me-auto">Manor page already exists</span><span class="fw-bold">10</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO OPTIONS -->
+  <section class="section">
+    <div class="mb-3"><span class="section-tag">03 · The decision</span>
+      <h2 class="mt-1">Two ways to structure the new Manor pages</h2>
+      <p class="text-muted">Both preserve the same traffic. They differ in how service pages are organized and how much needs to be built.</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card plan p-4 h-100">
+          <span class="badge-soft tier-c mb-2">Option A</span>
+          <h4>Location-scoped services</h4>
+          <p class="text-muted">A dedicated service page for every city, matching the prior Manor migration playbooks and strongest for local search.</p>
+          <div class="rounded p-3 mb-3" style="background:#f4f7fc; font-family:monospace; font-size:.82rem;">
+            /locations/{city}/services/{service}/<br>
+            /locations/{city}/providers/{provider}/
+          </div>
+          <div class="d-flex justify-content-between border-bottom py-2"><span>New pages to build</span><span class="fw-bold">~150</span></div>
+          <div class="d-flex justify-content-between border-bottom py-2"><span>Total effort</span><span class="fw-bold">~315&ndash;410 hours</span></div>
+          <div class="d-flex justify-content-between py-2"><span>Relative cost</span><span class="fw-bold">baseline</span></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card plan b p-4 h-100">
+          <span class="badge-soft tier-d mb-2">Option B</span>
+          <h4>Global consolidated services</h4>
+          <p class="text-muted">One strong national page per service. Fewer pages, cheaper to build and maintain, but weaker on city-specific queries.</p>
+          <div class="rounded p-3 mb-3" style="background:#f4f7fc; font-family:monospace; font-size:.82rem;">
+            /services/{service}/<br>
+            /providers/{provider}/
+          </div>
+          <div class="d-flex justify-content-between border-bottom py-2"><span>New pages to build</span><span class="fw-bold">~65</span></div>
+          <div class="d-flex justify-content-between border-bottom py-2"><span>Total effort</span><span class="fw-bold">~256&ndash;329 hours</span></div>
+          <div class="d-flex justify-content-between py-2"><span>Relative cost</span><span class="fw-bold text-success">~84 h cheaper (22%)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOURS BY DEPARTMENT -->
+  <section class="section">
+    <div class="mb-3"><span class="section-tag">04 · Effort by team</span>
+      <h2 class="mt-1">Hours needed, by department</h2>
+      <p class="text-muted">Development and content carry the most work. Analytics and account management stay light because tracking is set up once and reused across markets.</p>
+    </div>
+    <div class="card p-4 mb-4">
+      <div class="chart-wrap" style="height:380px;"><canvas id="hoursChart"></canvas></div>
+    </div>
+    <div class="card overflow-hidden">
+      <div class="table-responsive">
+        <table class="table align-middle mb-0">
+          <thead><tr><th>Department</th><th class="text-end">Option A (location-scoped)</th><th class="text-end">Option B (global)</th><th>Where the hours go</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Development</strong></td><td class="text-end">133&ndash;168</td><td class="text-end">84&ndash;105</td><td class="text-muted">Influx extraction, page builds, redirects, schema, QA</td></tr>
+            <tr><td><strong>SEO</strong></td><td class="text-end">77&ndash;102</td><td class="text-end">70&ndash;95</td><td class="text-muted">Redirect map, GBP &amp; citations, monitoring</td></tr>
+            <tr><td><strong>Content</strong></td><td class="text-end">91&ndash;123</td><td class="text-end">88&ndash;112</td><td class="text-muted">Service copy, location pages, provider bios</td></tr>
+            <tr><td><strong>Analytics</strong></td><td class="text-end">8&ndash;11</td><td class="text-end">8&ndash;11</td><td class="text-muted">GA4 / GTM / GHL / Liine test leads</td></tr>
+            <tr><td><strong>Account / PM</strong></td><td class="text-end">4&ndash;7</td><td class="text-end">4&ndash;7</td><td class="text-muted">Board reporting &amp; coordination</td></tr>
+            <tr class="table-light"><td><strong>Total (internal)</strong></td><td class="text-end fw-bold">~315&ndash;410</td><td class="text-end fw-bold">~256&ndash;329</td><td class="text-muted">Server / hosting work stays external</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROS CONS + RECOMMENDATION -->
+  <section class="section">
+    <div class="mb-3"><span class="section-tag">05 · Recommendation</span>
+      <h2 class="mt-1">Pros, cons, and a suggested path</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="card p-4 h-100">
+          <h5 class="text-primary">Option A · Location-scoped</h5>
+          <ul class="pros small mt-3 ps-3">
+            <li>Matches the prior Manor playbooks</li>
+            <li>Strongest for local queries like "botox scottsdale"</li>
+            <li>Clean Google Business Profile alignment</li>
+            <li>Simpler one-to-one redirects</li>
+          </ul>
+          <ul class="cons small ps-3 mt-2">
+            <li>~85 more pages to build and maintain</li>
+            <li>Risk of thin pages if over-built</li>
+            <li>Requires rebuilding a layer Manor no longer serves</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card p-4 h-100">
+          <h5 class="text-success">Option B · Global services</h5>
+          <ul class="pros small mt-3 ps-3">
+            <li>Matches what Manor serves today</li>
+            <li>Fewer, stronger consolidated pages</li>
+            <li>~84 hours cheaper and faster to launch</li>
+            <li>Scales cleanly with future acquisitions</li>
+          </ul>
+          <ul class="cons small ps-3 mt-2">
+            <li>Weaker on city-specific service queries</li>
+            <li>Diverges from the locked playbook</li>
+            <li>Merge work can drop content if not disciplined</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rec p-4 p-md-5 mt-4">
+      <span class="badge-soft tier-c mb-2">Suggested</span>
+      <h3 class="mb-2">A hybrid, focused where the equity is</h3>
+      <p class="mb-1">Build location-scoped services only for the markets that actually rank locally (Scottsdale, Denver, Beverly Hills, and Marvel's Tennessee cities), and consolidate everything else into strong national pages.</p>
+      <p class="mb-0"><strong>~90&ndash;100 pages · ~350&ndash;364 internal hours</strong></p>
+    </div>
+
+    <div class="card p-4 mt-4">
+      <h5 class="mb-3">What we need to finalize the estimate</h5>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" id="c1" disabled>
+        <label class="form-check-label" for="c1">Choose an architecture: Option A, Option B, or hybrid</label>
+      </div>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" id="c2" disabled>
+        <label class="form-check-label" for="c2">Confirm the services offered at each location (the services-offered matrix)</label>
+      </div>
+      <div class="form-check mb-2">
+        <input class="form-check-input" type="checkbox" id="c3" disabled>
+        <label class="form-check-label" for="c3">Grant Influx CMS export access (unblocks content extraction)</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="c4" disabled>
+        <label class="form-check-label" for="c4">Confirm the city for All About Me AZ (Google Business Profile)</label>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="py-5 text-center">
+  <div class="container foot">
+    Planning document · Prepared August 2026 · Source data: live crawls, sitemaps, and Ahrefs via authenticated session.<br>
+    Figures are directional planning estimates, not GA4 or Search Console actuals.
+  </div>
+</footer>
+
+<script>
+const FONT = 'Inter, sans-serif';
+Chart.defaults.font.family = FONT;
+Chart.defaults.color = '#5b6b85';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.boxWidth = 8;
+Chart.defaults.plugins.legend.labels.boxHeight = 8;
+
+const sites = ['Blume','Aere','All About Me','Marvel','Ageless','Manor legacy'];
+const traffic = [501,384,292,127,141,3];
+const dr = [37,11,9,17,6,1.2];
+
+new Chart(document.getElementById('trafficChart'), {
+  type: 'bar',
+  data: { labels: sites, datasets: [{ label: 'Visits / month', data: traffic, backgroundColor: ['#2563eb','#0f9d6c','#0f9d6c','#0f9d6c','#0f9d6c','#9aa7bd'], borderRadius: 8 }] },
+  options: { indexAxis:'y', plugins:{ legend:{display:false} }, scales:{ x:{ grid:{ color:'#eef2f8' } }, y:{ grid:{ display:false } } } }
+});
+
+new Chart(document.getElementById('drChart'), {
+  type: 'bar',
+  data: { labels: sites, datasets: [{ label: 'Domain Rating', data: dr, backgroundColor: ['#dc2626','#0f9d6c','#0f9d6c','#0f9d6c','#0f9d6c','#9aa7bd'], borderRadius: 8 }] },
+  options: { plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, grid:{ color:'#eef2f8' } }, x:{ grid:{ display:false } } } }
+});
+
+new Chart(document.getElementById('dispositionChart'), {
+  type: 'doughnut',
+  data: { labels: ['Rebuild then redirect','Merge and redirect','Retire','Direct redirect'], datasets: [{ data: [321,293,414,10], backgroundColor: ['#2563eb','#0f9d6c','#9aa7bd','#d97706'], borderWidth:2, borderColor:'#fff' }] },
+  options: { cutout:'62%', plugins:{ legend:{ position:'bottom' } } }
+});
+
+const depts = ['Development','SEO','Content','Analytics','Account / PM'];
+const planA = [150,90,107,10,6];
+const planB = [95,83,100,10,6];
+
+new Chart(document.getElementById('hoursChart'), {
+  type: 'bar',
+  data: { labels: depts, datasets: [
+    { label:'Option A · location-scoped', data:planA, backgroundColor:'#2563eb', borderRadius:6 },
+    { label:'Option B · global', data:planB, backgroundColor:'#0f9d6c', borderRadius:6 }
+  ]},
+  options: { plugins:{ legend:{ position:'bottom' } }, scales:{ y:{ beginAtZero:true, title:{ display:true, text:'Hours' }, grid:{ color:'#eef2f8' } }, x:{ grid:{ display:false } } } }
+});
+</script>
+</body>
+</html>

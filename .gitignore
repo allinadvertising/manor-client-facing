@@ -1,0 +1,14 @@
+# OS / editor noise
+Thumbs.db
+.DS_Store
+desktop.ini
+*.lnk
+
+# Node (if this is later scaffolded with tooling)
+node_modules/
+npm-debug.log*
+
+# Local environment
+.env
+.env.*
+!.env.example
