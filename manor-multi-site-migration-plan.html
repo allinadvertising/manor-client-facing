@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migration Plan: Full Execution | All In Advertising</title>
+<link rel="icon" type="image/svg+xml" href="assets/icon-color.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#3e71b8;--blue-dark:#2f5b9a;--navy:#14305e;--ink:#22334c;--muted:#64778f;--gold:#f6b328;--gold-dark:#d99a10;--border:#e7edf5;--bg:#f6f8fb;--card:#ffffff;}
+*{font-family:'Inter',system-ui,-apple-system,sans-serif;box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.65;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.topbar{background:var(--navy);color:#fff;padding:0;border-bottom:3px solid var(--gold);}
+.topbar .inner{max-width:960px;margin:0 auto;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.topbar .logo{height:26px;}
+.topbar .meta{color:#bcd0ea;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;}
+.topbar .back{color:#fff;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.3rem .9rem;}
+.topbar .back:hover{background:rgba(255,255,255,.12);text-decoration:none;}
+.wrap{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+h1{font-size:2rem;font-weight:800;color:var(--navy);letter-spacing:-0.02em;line-height:1.2;margin:0 0 .35rem;padding-bottom:.6rem;border-bottom:3px solid var(--gold);}
+h2{font-size:1.35rem;font-weight:700;color:var(--navy);margin:2.4rem 0 .75rem;padding-bottom:.3rem;border-bottom:1px solid var(--border);}
+h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin:1.8rem 0 .5rem;}
+h4{font-size:1rem;font-weight:700;color:var(--navy);margin:1.4rem 0 .4rem;}
+p{margin:.7rem 0;}
+strong{color:var(--navy);}
+ul,ol{margin:.7rem 0;padding-left:1.4rem;}
+li{margin:.3rem 0;}
+hr{border:none;border-top:1px solid var(--border);margin:2.2rem 0;}
+table{width:100%;border-collapse:collapse;margin:1.1rem 0;font-size:.92rem;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+thead th{background:var(--navy);color:#fff;text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;padding:.6rem .8rem;}
+tbody td{padding:.6rem .8rem;border-top:1px solid var(--border);vertical-align:top;}
+tbody tr:nth-child(even){background:#f4f7fc;}
+code{font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:.86em;background:#eef2f9;color:var(--blue-dark);padding:.12rem .35rem;border-radius:5px;}
+pre{background:#10233f;color:#dbe6f5;padding:1rem 1.2rem;border-radius:10px;overflow-x:auto;font-size:.86rem;}
+pre code{background:none;color:inherit;padding:0;}
+blockquote{margin:1.1rem 0;padding:.6rem 1.1rem;border-left:4px solid var(--gold);background:#fdf6e8;border-radius:0 8px 8px 0;color:var(--ink);}
+blockquote p{margin:.3rem 0;}
+.footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;text-align:center;}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <img src="assets/logo-white-horizontal.svg" alt="All In Advertising" class="logo">
+  <span class="meta">Technical document</span>
+  <a class="back" href="index.html">&larr; Overview</a>
+</div></div>
+<div class="wrap">
+<h1 id="manor-multi-site-seo-migration-plan-full-execution">Manor Multi-Site SEO Migration Plan: Full Execution</h1>
+<p><strong>Destination:</strong> https://thisismanor.com/
+<strong>Scope:</strong> 6 acquired med-spa sites (Influx CMS) to thisismanor.com (WordPress)
+<strong>Status:</strong> Planning / migration-design exercise. <strong>No production changes made.</strong>
+<strong>Evidence basis:</strong> Live crawls (robots.txt + sitemap), Ahrefs via authenticated Chrome (domain overview + top pages), live HTML inspection. GSC for source sites = BLOCKED (see Assumptions &amp; Blockers).</p>
+<hr>
+<h2 id="1-executive-summary">1. EXECUTIVE SUMMARY</h2>
+<p><strong>Sites in scope:</strong> 6 (Blume Skin &amp; Body, Marvel Cosmetic Med Spa, Ageless Santa Fe, All About Me AZ, Aere Aesthetics, Manor Med Spa legacy).</p>
+<p><strong>Volume:</strong> 1,038 source URLs discovered via sitemaps; ~1,448 combined estimated monthly organic visits; ~$3.6K combined monthly organic traffic value (Ahrefs, directional).</p>
+<p><strong>SEO equity concentration:</strong> One site (Blume) carries disproportionate authority (DR 37, 42.1K backlinks, 622 referring domains, 501 visits). Four mid/low sites (Marvel, Ageless, All About Me, Aere) carry moderate local equity. One site (Manor Med Spa legacy) has effectively zero organic value (DR 1.2, 3 visits) and should be retired rather than migrated.</p>
+<p><strong>Locations:</strong> ~10 physical locations across AZ, TN, NM, CO, CA.</p>
+<p><strong>Recommended dispositions (from Master URL Migration Map, 1,038 URLs):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Count</th>
+<th>Share</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REBUILD_THEN_REDIRECT</code></td>
+<td>321</td>
+<td>31%</td>
+</tr>
+<tr>
+<td><code>MERGE_AND_REDIRECT</code></td>
+<td>293</td>
+<td>28%</td>
+</tr>
+<tr>
+<td><code>RETIRE</code></td>
+<td>414</td>
+<td>40%</td>
+</tr>
+<tr>
+<td><code>REDIRECT_1_TO_1</code></td>
+<td>10</td>
+<td>1%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>SEO value tiers:</strong> Tier A = 6 (homepages), Tier B = 106 (Ahrefs top pages), Tier C = 440, Tier D = 486. 414 URLs (~40%) are Tier-D galleries/utilities that should be retired rather than migrated.</p>
+<p><strong>Key risks:</strong></p>
+<ol>
+<li><strong>Blume's 42K backlinks.</strong> 46% of crawled pages return 3XX and a large share of links point to <code>/blog</code> and <code>/gallery</code>; these must be 301-mapped or consolidated, never dropped to the homepage.</li>
+<li><strong>Gallery consolidation.</strong> 500+ before/after gallery URLs (Blume 310, Ageless 55) carry visual-equity content but almost no search value; retire individually, preserve media into a single per-location gallery.</li>
+<li><strong>Influx export path is UNVERIFIED.</strong> No backend access yet; playbook assumes worst-case crawl-assisted migration until a structured export is confirmed (see Section 3).</li>
+<li><strong>Manor destination is mid-build.</strong> Only 25 services + 5 locations + 61 blog URLs live; the new service/location pages must be BUILT before their redirects can launch.</li>
+<li><strong>GSC unavailable for all 6 source sites.</strong> Post-launch validation for those domains cannot rely on first-party GSC; Ahrefs + live crawl are primary.</li>
+</ol>
+<p><strong>Recommended sequencing:</strong> Blume first (highest value, validate the playbook), then Aere/Marvel (multi-location), then Ageless/All About Me, then retire the Manor legacy site. ~7 days observation between waves (inherited Manor methodology).</p>
+<hr>
+<h2 id="2-target-architecture-two-approaches-plus-a-hybrid">2. TARGET ARCHITECTURE: TWO APPROACHES PLUS A HYBRID</h2>
+<h3 id="verified-live-manor-structure-thisismanorcom-100-urls">Verified live Manor structure (thisismanor.com, 100 URLs)</h3>
+<table>
+<thead>
+<tr>
+<th>Content type</th>
+<th>Target pattern</th>
+<th>Live examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Service</td>
+<td><code>/services/{service}/</code></td>
+<td><code>/services/botox/</code>, <code>/services/dermal-fillers/</code>, <code>/services/coolsculpting/</code> (25 live)</td>
+</tr>
+<tr>
+<td>Location</td>
+<td><code>/locations/{city}/</code></td>
+<td><code>/locations/addison/</code>, <code>/locations/salt-lake-city/</code> (5 live)</td>
+</tr>
+<tr>
+<td>Blog</td>
+<td><code>/blog/{post}/</code></td>
+<td><code>/blog/...</code> (61 URLs; CPT archives leak into sitemap)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="vio-med-spa-reference-viomedspacom">ViO Med Spa reference (viomedspa.com)</h3>
+<table>
+<thead>
+<tr>
+<th>Content type</th>
+<th>ViO pattern</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location</td>
+<td><code>/{city}/...</code> subdirectory sites (per-location page/post/treatment sitemaps)</td>
+<td>ViO does NOT use a <code>/locations/{city}/</code> prefix for location pages</td>
+</tr>
+<tr>
+<td>Treatment</td>
+<td><code>/wellness/{category}/{treatment}/</code></td>
+<td>e.g. <code>/wellness/hormone-support/hormone-replacement-therapy/</code></td>
+</tr>
+<tr>
+<td>Blog</td>
+<td><code>/blog/...</code></td>
+<td>standard</td>
+</tr>
+<tr>
+<td>Location hub</td>
+<td><code>/locations/</code></td>
+<td>hub page</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-decision-two-approaches-plus-a-hybrid">The decision: two approaches plus a hybrid</h3>
+<p>The six sites can be migrated into Manor using two different service architectures. Both preserve the same traffic and the same location pages. They differ only in how service pages are organized. A third, hybrid option combines them.</p>
+<h4 id="option-a-location-scoped-services-matches-prior-manor-playbooks">Option A: Location-scoped services (matches prior Manor playbooks)</h4>
+<pre class="hljs"><code><div>/locations/{city}/services/{service}/
+/locations/{city}/providers/{provider}/
+</div></code></pre>
+<p>A dedicated service page for every city, with city-qualified slugs (for example <code>/locations/scottsdale/services/botox-scottsdale-az/</code>). Strongest for local search and GBP alignment, but ~150 pages to build and maintain. Effort ~315-410 hours.</p>
+<h4 id="option-b-global-consolidated-services-matches-manors-live-build">Option B: Global consolidated services (matches Manor's live build)</h4>
+<pre class="hljs"><code><div>/services/{service}/
+/providers/{provider}/
+</div></code></pre>
+<p>One strong national page per service, absorbing all six sites. Fewer pages (~65), cheaper (~256-329 hours), and matches what Manor serves today, but weaker on city-specific service queries and diverges from the locked playbook.</p>
+<h4 id="hybrid-recommended">Hybrid (recommended)</h4>
+<ul>
+<li><strong>Location-scoped</strong> services for the markets that actually rank locally: Scottsdale (Blume), Denver and Beverly Hills (Aere), and Marvel's Tennessee cities.</li>
+<li><strong>Global consolidated</strong> services for thin or overlapping services and secondary locations.</li>
+<li>~90-100 pages, ~350-364 internal hours.</li>
+</ul>
+<p>This concentrates page-building where the equity is and avoids multiplying thin pages everywhere else.</p>
+<h3 id="location-slug-map-applies-to-both-options">Location slug map (applies to both options)</h3>
+<table>
+<thead>
+<tr>
+<th>Source site</th>
+<th>Location(s)</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Blume Skin &amp; Body</td>
+<td>Scottsdale, AZ</td>
+<td><code>/locations/scottsdale/</code></td>
+</tr>
+<tr>
+<td>Marvel Cosmetic Med Spa</td>
+<td>Spring Hill, Tullahoma, Brentwood, Columbia, TN</td>
+<td><code>/locations/{city}/</code> (x4)</td>
+</tr>
+<tr>
+<td>Ageless Santa Fe</td>
+<td>Santa Fe, NM</td>
+<td><code>/locations/santa-fe/</code></td>
+</tr>
+<tr>
+<td>All About Me AZ</td>
+<td>AZ (city UNKNOWN, verify GBP)</td>
+<td><code>/locations/{city}/</code></td>
+</tr>
+<tr>
+<td>Aere Aesthetics</td>
+<td>Denver, CO; Beverly Hills, CA</td>
+<td><code>/locations/denver/</code>, <code>/locations/beverly-hills/</code></td>
+</tr>
+<tr>
+<td>Manor Med Spa (legacy)</td>
+<td>none (retire)</td>
+<td>homepage redirect</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="3-influx-cms-to-wordpress-migration-playbook">3. INFLUX CMS TO WORDPRESS MIGRATION PLAYBOOK</h2>
+<h3 id="capability-matrix-evidence-first-no-backend-access-yet">Capability matrix (evidence-first; no backend access yet)</h3>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Classification</th>
+<th>Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CMS platform</td>
+<td><code>VERIFIED</code></td>
+<td><code>&lt;meta name=&quot;generator&quot; content=&quot;Growthstack by Influx&quot;&gt;</code> on live pages</td>
+</tr>
+<tr>
+<td>XML sitemap</td>
+<td><code>VERIFIED</code></td>
+<td><code>/sitemap.xml</code> (single urlset) on 5 sites; declared in robots.txt</td>
+</tr>
+<tr>
+<td>robots.txt control</td>
+<td><code>VERIFIED</code></td>
+<td>Per-site robots.txt with <code>Allow/Disallow</code> + <code>Sitemap:</code></td>
+</tr>
+<tr>
+<td>Rendered meta title / description / H1</td>
+<td><code>VERIFIED</code></td>
+<td>Present in live HTML</td>
+</tr>
+<tr>
+<td>Canonical / meta robots</td>
+<td><code>VERIFIED</code></td>
+<td>Present in live HTML (verified on sample pages)</td>
+</tr>
+<tr>
+<td>Media hosting</td>
+<td><code>VERIFIED</code></td>
+<td><code>influx-site-assets</code> CDN</td>
+</tr>
+<tr>
+<td>Content export API</td>
+<td><code>UNKNOWN</code></td>
+<td>Not observable without CMS login</td>
+</tr>
+<tr>
+<td>Structured DB / JSON export</td>
+<td><code>UNKNOWN</code></td>
+<td>Not observable</td>
+</tr>
+<tr>
+<td>WordPress exporter</td>
+<td><code>NOT AVAILABLE</code></td>
+<td>Influx is not WordPress; no evidence of WP exporter</td>
+</tr>
+<tr>
+<td>Redirect manager</td>
+<td><code>ACCESS REQUIRED</code></td>
+<td>Must be set at DNS/server level during cutover</td>
+</tr>
+<tr>
+<td>Schema / JSON-LD</td>
+<td><code>ACCESS REQUIRED</code></td>
+<td>Partial on live pages; completeness unverified</td>
+</tr>
+</tbody>
+</table>
+<h3 id="migration-path-preference-order">Migration path (preference order)</h3>
+<ol>
+<li><strong>Vendor-supported structured export</strong> (ACCESS REQUIRED, request from Influx/Candid Pulse). Covers content, media, SEO fields, providers, redirects.</li>
+<li><strong>Crawl-assisted extraction</strong> (fallback: <code>screaming-frog-cli</code> JS-render crawl + <code>crawl4ai</code> body recovery). HTML + title/desc/H1 + media URLs + internal links recovered.</li>
+<li><strong>Manual rebuild</strong> only for content that is unique and high-value and unrecoverable by the above (expected under 5% of pages).</li>
+</ol>
+<h3 id="per-component-handoff-table">Per-component handoff table</h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Source method</th>
+<th>WP destination method</th>
+<th>Risk</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Body HTML / headings</td>
+<td>structured export OR crawl</td>
+<td>Elementor/Gutenberg blocks</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Title / meta desc / H1</td>
+<td>crawl (fully observable)</td>
+<td>Yoast/Rank Math fields</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Images / before-after media</td>
+<td><code>influx-site-assets</code> URLs (re-host)</td>
+<td>WP media library</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Alt text</td>
+<td>crawl</td>
+<td>media alt</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Internal links</td>
+<td>crawl then rewrite to new URLs</td>
+<td>content import transform</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Providers</td>
+<td>crawl</td>
+<td>provider CPT + provider URL per chosen architecture</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Reviews/testimonials</td>
+<td>crawl</td>
+<td>testimonial CPT or schema</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Forms / booking</td>
+<td>NOT via crawl, rebuild</td>
+<td>native WP forms + booking URL</td>
+<td>High (verify CRM)</td>
+</tr>
+<tr>
+<td>Redirects</td>
+<td>new 301 map (this deliverable)</td>
+<td>server/.htaccess or rank-math redirects</td>
+<td>Low</td>
+</tr>
+</tbody>
+</table>
+<p>Extraction uses one reusable Python/Node script and one WP-CLI import across all six sites. No custom infrastructure unless a structured export is confirmed unavailable.</p>
+<hr>
+<h2 id="4-six-site-migration-plans-summarized">4. SIX SITE MIGRATION PLANS (summarized)</h2>
+<table>
+<thead>
+<tr>
+<th>Site</th>
+<th>DR</th>
+<th>Backlinks</th>
+<th>Ref domains</th>
+<th>Org KW</th>
+<th>Traffic</th>
+<th>Value</th>
+<th>URLs</th>
+<th>Primary disposition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>blumeskintreatment.com</td>
+<td>37</td>
+<td>42.1K</td>
+<td>622</td>
+<td>87</td>
+<td>501</td>
+<td>$1.3K</td>
+<td>571</td>
+<td><strong>Highest scrutiny.</strong> Homepage + services to Manor location/service pages; 310 gallery retire + preserve media; 156 blog consolidate to Manor blog</td>
+</tr>
+<tr>
+<td>marvelcosmeticmedspa.com</td>
+<td>17</td>
+<td>1.1K</td>
+<td>560</td>
+<td>47</td>
+<td>127</td>
+<td>$196</td>
+<td>124</td>
+<td>4 TN location pages to <code>/locations/{city}/</code>; root services to service pages</td>
+</tr>
+<tr>
+<td>agelesssantafe.com</td>
+<td>6</td>
+<td>883</td>
+<td>530</td>
+<td>30</td>
+<td>141</td>
+<td>$303</td>
+<td>122</td>
+<td>Category services (<code>/skin-treatments/*</code> etc.) to service pages; 55 gallery retire + preserve</td>
+</tr>
+<tr>
+<td>allaboutmeaz.com</td>
+<td>9</td>
+<td>5.8K</td>
+<td>717</td>
+<td>80</td>
+<td>292</td>
+<td>$514</td>
+<td>43</td>
+<td>Small; ~25 service pages to service pages; verify city for location page</td>
+</tr>
+<tr>
+<td>aereaesthetics.com</td>
+<td>11</td>
+<td>600</td>
+<td>523</td>
+<td>49</td>
+<td>384</td>
+<td>$765</td>
+<td>154</td>
+<td>Denver + Beverly Hills to <code>/locations/*</code>; team/providers to provider pages; blog consolidate</td>
+</tr>
+<tr>
+<td>manormedspa.com</td>
+<td>1.2</td>
+<td>832</td>
+<td>447</td>
+<td>1</td>
+<td>3</td>
+<td>~$0</td>
+<td>24</td>
+<td><strong>Retire.</strong> Homepage + key brand URLs 301 to Manor homepage (no new pages)</td>
+</tr>
+</tbody>
+</table>
+<p>Service and provider targets resolve per the chosen architecture (Section 2): location-scoped under Option A, national under Option B, mixed under the hybrid.</p>
+<p><strong>Top value URLs (must not be dropped):</strong> Blume homepage (572 ref domains), <code>/ultherapy/</code>, <code>/dermaplaning/</code>, <code>/laser-hair-removal/</code>; Marvel <code>/nasolabial-fold-fillers/</code>, <code>/about/jeffrey-marvel/</code>; Aere <code>/how-does-platelet-rich-fibrin-work/</code>, <code>/denver/</code>; Ageless <code>/injectables-fillers/botox/</code>, <code>/hair-treatments/laser-hair-removal/</code>; AllAboutMe <code>/plasma-pen/</code>, <code>/peptide-therapy/</code>, <code>/lip-filler/</code>.</p>
+<hr>
+<h2 id="5-cross-site-consolidation-report">5. CROSS-SITE CONSOLIDATION REPORT</h2>
+<p><strong>Service duplicates (merge into one page per service, target per chosen architecture):</strong> botox (5 sites), dermal fillers (5), lip filler (4), rf-/microneedling (6), chemical peels (4), laser hair removal (4), coolsculpting (3), kybella (3), dysport (3), facials/hydrafacial (4), PRP/PRF (3), IPL/BBL laser (3), Morpheus8 (2), skin tightening (4), weight loss/peptides (4).</p>
+<p><strong>Provider entities (unique, keep):</strong> Jeffrey Marvel (Marvel), Keith Ladner + Tiffany Morgan + Brianna Morrison (Aere), Tiffany Di Marco (Ageless), Dr. Leslie (All About Me). Target per chosen architecture: <code>/locations/{city}/providers/{slug}/</code> (Option A) or <code>/providers/{slug}/</code> (Option B).</p>
+<p><strong>Blog overlap:</strong> Blume (156 posts) dominates; Aere (19) secondary. Consolidate by topic; retire thin/duplicate posts; preserve posts carrying backlinks.</p>
+<p><strong>No location collisions:</strong> cities are distinct across acquisitions.</p>
+<p><strong>Redirect convergence:</strong> multiple source service pages converge on one Manor service page; each source URL gets its own 301 (no chains), and content from all sources merges into the single destination before redirect launch.</p>
+<hr>
+<h2 id="6-tracking-local-seo--launch-plan">6. TRACKING, LOCAL SEO, &amp; LAUNCH PLAN</h2>
+<p><strong>Tracking (Phase 8):</strong> before any wave: GA4 (thisismanor.com), GTM, call tracking, form/booking conversion events, GBP UTM tagging. Validate via test lead. GSC: only thisismanor.com accessible (source domains BLOCKED).</p>
+<p><strong>Local SEO / GBP (Phase 7):</strong> do NOT flip GBP website URLs until the matching <code>/locations/{city}/</code> page is live and QA'd. Transitional naming <code>{Legacy Brand} by Manor</code> warranted for Blume/Aere (brand equity); not for the Manor legacy site. NAP must match the new location page exactly.</p>
+<p><strong>Waves (Phase 9):</strong></p>
+<ol>
+<li>Blume (validate everything on the highest-equity site).</li>
+<li>Aere + Marvel (multi-location template).</li>
+<li>Ageless + All About Me.</li>
+<li>Manor legacy retire (homepage 301).
+~7 days observation between waves; isolated rollback per site; pause subsequent waves on sustained unexplained organic loss.</li>
+</ol>
+<p><strong>Go/No-Go gate per wave:</strong> destination exists, SEO QA passed, content migrated, redirect map approved, rollback ready, tracking validated, indexation understood, GBP sequenced, no unresolved Tier-A.</p>
+<hr>
+<h2 id="7-specialist-time-estimates-hours">7. SPECIALIST TIME ESTIMATES (hours)</h2>
+<p>Precedent-based (Modern SLC = 113.5 h for 1 location; Vitalyc = 180-210 h for 5 locations), scaled to 6 sites and ~10 locations, plus Influx CMS extraction, then reduced 30% per management direction.</p>
+<table>
+<thead>
+<tr>
+<th>Team</th>
+<th>Option A (location-scoped)</th>
+<th>Option B (global)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Development</td>
+<td>133-168</td>
+<td>84-105</td>
+</tr>
+<tr>
+<td>SEO</td>
+<td>77-102</td>
+<td>70-95</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>91-123</td>
+<td>88-112</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>8-11</td>
+<td>8-11</td>
+</tr>
+<tr>
+<td>Account/PM</td>
+<td>4-7</td>
+<td>4-7</td>
+</tr>
+<tr>
+<td><strong>Total (internal)</strong></td>
+<td><strong>~315-410</strong></td>
+<td><strong>~256-329</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hybrid:</strong> ~350-364 hours, ~90-100 pages.</p>
+<p>External infrastructure (DNS/hosting/server redirects) is separate and UNKNOWN until hosting access is confirmed.</p>
+<hr>
+<h2 id="8-implementation-sequence">8. IMPLEMENTATION SEQUENCE</h2>
+<p><code>Discovery (done) -&gt; Architecture (decision pending) -&gt; Influx export access (BLOCKED) -&gt; Content extraction -&gt; WordPress build -&gt; URL mapping (draft done) -&gt; QA -&gt; Tracking -&gt; Redirect wave -&gt; Verification -&gt; Monitoring</code></p>
+<p>Dependencies: structured export access (Influx/Candid Pulse) unblocks content build; destination page build unblocks each redirect wave; the architecture decision (Section 2) unblocks the final page count and URL map.</p>
+<hr>
+<h2 id="9-assumptions--blockers">9. ASSUMPTIONS &amp; BLOCKERS</h2>
+<table>
+<thead>
+<tr>
+<th>Assumption/Blocker</th>
+<th>Why needed</th>
+<th>Impact</th>
+<th>Owner</th>
+<th>Blocks launch?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Influx CMS backend/export access</td>
+<td>Extract content + media</td>
+<td>High</td>
+<td>Candid Pulse/Influx</td>
+<td>Yes (content build)</td>
+</tr>
+<tr>
+<td>Architecture decision (Option A / B / hybrid)</td>
+<td>Final page count + URL map</td>
+<td>High</td>
+<td>Management</td>
+<td>Yes (build)</td>
+</tr>
+<tr>
+<td>Services-offered matrix by market</td>
+<td>Final page count + estimate</td>
+<td>High</td>
+<td>Client</td>
+<td>Yes (build)</td>
+</tr>
+<tr>
+<td>GSC access for 6 source domains</td>
+<td>Post-launch indexation validation</td>
+<td>Medium</td>
+<td>Client</td>
+<td>No (Ahrefs/crawl fallback)</td>
+</tr>
+<tr>
+<td>City for All About Me AZ</td>
+<td>Location page target</td>
+<td>Medium</td>
+<td>Client/GBP</td>
+<td>Yes (that location)</td>
+</tr>
+<tr>
+<td>WordPress host/server access for redirects + DNS</td>
+<td>Implement redirects</td>
+<td>High</td>
+<td>Client host</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Ahrefs metrics are directional (3rd-party), not GA4/GSC actuals</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="10-go--no-go-checklist-per-acquisition">10. GO / NO-GO CHECKLIST (per acquisition)</h2>
+<ul>
+<li><input type="checkbox" id="checkbox0"><label for="checkbox0">Destination location/service pages live and HTTP 200</label></li>
+<li><input type="checkbox" id="checkbox1"><label for="checkbox1">Canonical + indexable + unique H1 + accurate NAP on each destination</label></li>
+<li><input type="checkbox" id="checkbox2"><label for="checkbox2">Content + media + providers + FAQs migrated</label></li>
+<li><input type="checkbox" id="checkbox3"><label for="checkbox3">Redirect map approved (no chains, no homepage-dumping)</label></li>
+<li><input type="checkbox" id="checkbox4"><label for="checkbox4">Redirect rollback method confirmed</label></li>
+<li><input type="checkbox" id="checkbox5"><label for="checkbox5">GA4/GTM + conversion events validated with a test lead</label></li>
+<li><input type="checkbox" id="checkbox6"><label for="checkbox6">GBP website URL sequenced (not before destination ready)</label></li>
+<li><input type="checkbox" id="checkbox7"><label for="checkbox7">No unresolved Tier-A mapping issues</label></li>
+<li><input type="checkbox" id="checkbox8"><label for="checkbox8">Sitemap/indexation behavior understood</label></li>
+</ul>
+<hr>
+<h2 id="artifact-index">Artifact index</h2>
+<ul>
+<li><code>reports/MASTER_URL_MIGRATION_MAP.csv</code>: 1,038 rows, one disposition per source URL</li>
+<li><code>reports/PLAN_A_LOCATION_SCOPED.md</code>: Option A detail + estimates</li>
+<li><code>reports/PLAN_B_GLOBAL_SERVICES.md</code>: Option B detail + estimates</li>
+<li><code>reports/DECISION_MEMO_PROS_CONS.md</code>: pros, cons, and hybrid recommendation</li>
+<li><code>inventories/*_urls.txt</code>: full sitemap inventories (6 source + Manor + ViO)</li>
+<li><code>ahrefs/*.txt</code>: Ahrefs overview + top-pages captures (6 sites)</li>
+<li><code>sitemaps/robots/*.txt</code>: robots.txt captures</li>
+</ul>
+<div class="footer">Prepared by All In Advertising &middot; August 2026 &middot; Planning document, not production changes.</div>
+</div>
+</body>
+</html>

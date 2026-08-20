@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan A: Location-Scoped Services | All In Advertising</title>
+<link rel="icon" type="image/svg+xml" href="assets/icon-color.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#3e71b8;--blue-dark:#2f5b9a;--navy:#14305e;--ink:#22334c;--muted:#64778f;--gold:#f6b328;--gold-dark:#d99a10;--border:#e7edf5;--bg:#f6f8fb;--card:#ffffff;}
+*{font-family:'Inter',system-ui,-apple-system,sans-serif;box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.65;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.topbar{background:var(--navy);color:#fff;padding:0;border-bottom:3px solid var(--gold);}
+.topbar .inner{max-width:960px;margin:0 auto;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.topbar .logo{height:26px;}
+.topbar .meta{color:#bcd0ea;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;}
+.topbar .back{color:#fff;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.3rem .9rem;}
+.topbar .back:hover{background:rgba(255,255,255,.12);text-decoration:none;}
+.wrap{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+h1{font-size:2rem;font-weight:800;color:var(--navy);letter-spacing:-0.02em;line-height:1.2;margin:0 0 .35rem;padding-bottom:.6rem;border-bottom:3px solid var(--gold);}
+h2{font-size:1.35rem;font-weight:700;color:var(--navy);margin:2.4rem 0 .75rem;padding-bottom:.3rem;border-bottom:1px solid var(--border);}
+h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin:1.8rem 0 .5rem;}
+h4{font-size:1rem;font-weight:700;color:var(--navy);margin:1.4rem 0 .4rem;}
+p{margin:.7rem 0;}
+strong{color:var(--navy);}
+ul,ol{margin:.7rem 0;padding-left:1.4rem;}
+li{margin:.3rem 0;}
+hr{border:none;border-top:1px solid var(--border);margin:2.2rem 0;}
+table{width:100%;border-collapse:collapse;margin:1.1rem 0;font-size:.92rem;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+thead th{background:var(--navy);color:#fff;text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;padding:.6rem .8rem;}
+tbody td{padding:.6rem .8rem;border-top:1px solid var(--border);vertical-align:top;}
+tbody tr:nth-child(even){background:#f4f7fc;}
+code{font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:.86em;background:#eef2f9;color:var(--blue-dark);padding:.12rem .35rem;border-radius:5px;}
+pre{background:#10233f;color:#dbe6f5;padding:1rem 1.2rem;border-radius:10px;overflow-x:auto;font-size:.86rem;}
+pre code{background:none;color:inherit;padding:0;}
+blockquote{margin:1.1rem 0;padding:.6rem 1.1rem;border-left:4px solid var(--gold);background:#fdf6e8;border-radius:0 8px 8px 0;color:var(--ink);}
+blockquote p{margin:.3rem 0;}
+.footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;text-align:center;}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <img src="assets/logo-white-horizontal.svg" alt="All In Advertising" class="logo">
+  <span class="meta">Technical document</span>
+  <a class="back" href="index.html">&larr; Overview</a>
+</div></div>
+<div class="wrap">
+<h1 id="plan-a---location-scoped-architecture-follows-manor-precedent">PLAN A - Location-Scoped Architecture (Follows Manor Precedent)</h1>
+<p><strong>Destination:</strong> https://thisismanor.com/
+<strong>Scope:</strong> 6 Influx CMS sites to WordPress. 1,038 source URLs, ~10 physical locations, ~50 unique service types.</p>
+<h2 id="architecture-locked">Architecture (locked)</h2>
+<pre class="hljs"><code><div>/locations/{city}/                        &lt;- one page per physical location
+/locations/{city}/services/{service}/     &lt;- location-qualified service pages
+/locations/{city}/providers/{provider}/   &lt;- location-qualified provider pages
+/services/{service}/                      &lt;- national service hub (thin, links down to locations)
+/blog/{post}/                             &lt;- consolidated editorial
+/gallery/{location}/                      &lt;- one gallery per location
+</div></code></pre>
+<p>City-qualified slugs follow the precedent, e.g. <code>/locations/scottsdale/services/botox-scottsdale-az/</code>, <code>/locations/santa-fe/services/rf-microneedling-santa-fe-nm/</code>.</p>
+<h2 id="why-this-plan">Why this plan</h2>
+<p>Matches the stated national-brand-with-local-practice strategy in the Modern SLC and Vitalyc game plans. Local service demand (&quot;botox scottsdale&quot;, &quot;med spa santa fe&quot;) is captured on a dedicated local page rather than a national page. GBP points at the local location page.</p>
+<h2 id="page-build-scope">Page build scope</h2>
+<table>
+<thead>
+<tr>
+<th>Page type</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location pages</td>
+<td>~10</td>
+</tr>
+<tr>
+<td>Location-service (Priority 1)</td>
+<td>~120 (range 80-150)</td>
+</tr>
+<tr>
+<td>Location-provider</td>
+<td>~10</td>
+</tr>
+<tr>
+<td>Gallery</td>
+<td>~10</td>
+</tr>
+<tr>
+<td><strong>Total new pages</strong></td>
+<td><strong>~150</strong> (range 90-180)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adapted-time-estimates-hours">Adapted time estimates (hours)</h2>
+<p>Scope drivers vs precedent: Modern SLC = 1 location / 142 URLs / 18 pages (113.5 h). Vitalyc = 5 locations / 153 URLs / 48-60 pages (180-210 h). This engagement = ~10 locations / 1,038 URLs / ~150 pages, plus Influx CMS extraction (new, not present in either precedent).</p>
+<table>
+<thead>
+<tr>
+<th>Team</th>
+<th>Hours</th>
+<th>What is included</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Development</td>
+<td><strong>133-168</strong></td>
+<td>Influx extraction + WP import pipeline, 120 location-service builds, 10 location pages, 10 providers, 10 galleries, schema per location, breadcrumbs, redirects + rollback, sitemap, navigation, QA pass, booking destination</td>
+</tr>
+<tr>
+<td>SEO</td>
+<td><strong>77-102</strong></td>
+<td>Redirect map (1,038 rows + market + city slugs), GBP freeze/naming for 10 profiles, citation audit for 10 markets, local metadata/copy QA, launch-day operations, 104-day monitoring, reporting, tracking share, backlinks</td>
+</tr>
+<tr>
+<td>Content</td>
+<td><strong>91-123</strong></td>
+<td>50 unique service bodies, 120 local adaptations, 10 location pages, 10 provider bios, gallery captions, metadata</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td><strong>8-11</strong></td>
+<td>GA4/GTM/GHL/Liine test leads across ~10 markets</td>
+</tr>
+<tr>
+<td>Account/PM</td>
+<td><strong>4-7</strong></td>
+<td>Board reporting + coordination</td>
+</tr>
+<tr>
+<td><strong>TOTAL (internal)</strong></td>
+<td><strong>~315-410</strong></td>
+<td>Pre-launch critical path ~336</td>
+</tr>
+</tbody>
+</table>
+<p>Figures reflect a 30% reduction from the prior draft per management direction. External server-level redirects, DNS/CDN/hosting remain with the client dev/hosting vendor (not estimated).</p>
+<h2 id="sequencing">Sequencing</h2>
+<p>Same waves/gates as the shared methodology, but redirects are simpler 1:1 city-to-city (each source service to its city-qualified Manor equivalent). Blume first (control site), then Aere/Marvel (multi-location), then Ageless/AllAboutMe, then retire legacy Manor.</p>
+<h2 id="key-risks">Key risks</h2>
+<ol>
+<li><strong>Thin location-service pages.</strong> 120 pages risk low depth if the services-offered matrix over-reaches. Mitigate by building only Priority-1 services with real local demand and a confirmed offered service (Vitalyc precedent: 24-60 range, not all services everywhere).</li>
+<li><strong>Higher build + copy cost</strong> (~150 pages vs ~65).</li>
+<li><strong>Ongoing maintenance.</strong> Every new acquisition multiplies pages; the template must be strict.</li>
+</ol>
+<div class="footer">Prepared by All In Advertising &middot; August 2026 &middot; Planning document, not production changes.</div>
+</div>
+</body>
+</html>

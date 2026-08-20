@@ -1,10 +1,13 @@
 # Manor Multi-Site Migration - Client Facing Overview
 
-A single-page, client-facing presentation of the Manor multi-site SEO migration scope.
+A client-facing presentation plus supporting technical documents for the Manor multi-site SEO migration scope. Branded with the All In Advertising identity.
 
 ## Contents
 
-- `index.html` - self-contained presentation (Bootstrap 5 + Chart.js via CDN)
+- `index.html` - overview presentation (Bootstrap 5 + Chart.js via CDN)
+- `manor-multi-site-migration-plan.html` - full execution plan
+- `plan-a-location-scoped.html` - Option A (location-scoped services)
+- `plan-b-global-services.html` - Option B (global services)
 
 ## What it covers
 

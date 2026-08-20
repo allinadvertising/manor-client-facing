@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan B: Global Services | All In Advertising</title>
+<link rel="icon" type="image/svg+xml" href="assets/icon-color.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#3e71b8;--blue-dark:#2f5b9a;--navy:#14305e;--ink:#22334c;--muted:#64778f;--gold:#f6b328;--gold-dark:#d99a10;--border:#e7edf5;--bg:#f6f8fb;--card:#ffffff;}
+*{font-family:'Inter',system-ui,-apple-system,sans-serif;box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.65;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+.topbar{background:var(--navy);color:#fff;padding:0;border-bottom:3px solid var(--gold);}
+.topbar .inner{max-width:960px;margin:0 auto;padding:.85rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.topbar .logo{height:26px;}
+.topbar .meta{color:#bcd0ea;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;}
+.topbar .back{color:#fff;font-size:.85rem;font-weight:600;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.3rem .9rem;}
+.topbar .back:hover{background:rgba(255,255,255,.12);text-decoration:none;}
+.wrap{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 4rem;}
+h1{font-size:2rem;font-weight:800;color:var(--navy);letter-spacing:-0.02em;line-height:1.2;margin:0 0 .35rem;padding-bottom:.6rem;border-bottom:3px solid var(--gold);}
+h2{font-size:1.35rem;font-weight:700;color:var(--navy);margin:2.4rem 0 .75rem;padding-bottom:.3rem;border-bottom:1px solid var(--border);}
+h3{font-size:1.1rem;font-weight:700;color:var(--navy);margin:1.8rem 0 .5rem;}
+h4{font-size:1rem;font-weight:700;color:var(--navy);margin:1.4rem 0 .4rem;}
+p{margin:.7rem 0;}
+strong{color:var(--navy);}
+ul,ol{margin:.7rem 0;padding-left:1.4rem;}
+li{margin:.3rem 0;}
+hr{border:none;border-top:1px solid var(--border);margin:2.2rem 0;}
+table{width:100%;border-collapse:collapse;margin:1.1rem 0;font-size:.92rem;background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+thead th{background:var(--navy);color:#fff;text-align:left;font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;padding:.6rem .8rem;}
+tbody td{padding:.6rem .8rem;border-top:1px solid var(--border);vertical-align:top;}
+tbody tr:nth-child(even){background:#f4f7fc;}
+code{font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:.86em;background:#eef2f9;color:var(--blue-dark);padding:.12rem .35rem;border-radius:5px;}
+pre{background:#10233f;color:#dbe6f5;padding:1rem 1.2rem;border-radius:10px;overflow-x:auto;font-size:.86rem;}
+pre code{background:none;color:inherit;padding:0;}
+blockquote{margin:1.1rem 0;padding:.6rem 1.1rem;border-left:4px solid var(--gold);background:#fdf6e8;border-radius:0 8px 8px 0;color:var(--ink);}
+blockquote p{margin:.3rem 0;}
+.footer{margin-top:3rem;padding-top:1.2rem;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;text-align:center;}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="inner">
+  <img src="assets/logo-white-horizontal.svg" alt="All In Advertising" class="logo">
+  <span class="meta">Technical document</span>
+  <a class="back" href="index.html">&larr; Overview</a>
+</div></div>
+<div class="wrap">
+<h1 id="plan-b---global-services-architecture-fewer-stronger-pages">PLAN B - Global Services Architecture (Fewer, Stronger Pages)</h1>
+<p><strong>Destination:</strong> https://thisismanor.com/
+<strong>Scope:</strong> 6 Influx CMS sites to WordPress. 1,038 source URLs, ~10 physical locations, ~50 unique service types.</p>
+<h2 id="architecture-locked">Architecture (locked)</h2>
+<pre class="hljs"><code><div>/locations/{city}/                 &lt;- one page per physical location
+/services/{service}/               &lt;- ONE consolidated national page per service
+/providers/{provider}/             &lt;- ONE national page per unique provider
+/blog/{post}/                      &lt;- consolidated editorial
+/gallery/{location}/               &lt;- one gallery per location
+</div></code></pre>
+<p>No location-scoped service pages. Each service has a single strong page (<code>/services/botox/</code>) that absorbs content, links, and intent from all six source sites. Location pages link down to the relevant services; services link back to locations for NAP/booking.</p>
+<h2 id="why-this-plan">Why this plan</h2>
+<p>Matches what is currently live on Manor today (<code>service-sitemap.xml</code> = 25 global <code>/services/*</code>, <code>location-sitemap.xml</code> = 5 <code>/locations/*</code>). Fewer, deeper pages avoid the thin-page risk the precedent itself warns about, concentrate authority (one page = one keyword cluster instead of 10 near-duplicates), and scale cleanly with future acquisitions (a new city = one location page, not a new page per service).</p>
+<h2 id="page-build-scope">Page build scope</h2>
+<table>
+<thead>
+<tr>
+<th>Page type</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location pages</td>
+<td>~10</td>
+</tr>
+<tr>
+<td>Global service pages</td>
+<td>~35</td>
+</tr>
+<tr>
+<td>Provider pages</td>
+<td>~10</td>
+</tr>
+<tr>
+<td>Gallery</td>
+<td>~10</td>
+</tr>
+<tr>
+<td><strong>Total new pages</strong></td>
+<td><strong>~65</strong> (range 55-90)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="adapted-time-estimates-hours">Adapted time estimates (hours)</h2>
+<p>Same scope drivers as Plan A, but page count is ~65 vs ~150. Savings in page-builds and local copy are partly offset by heavier per-page consolidation writing (merging 2-5 sources into one service page).</p>
+<table>
+<thead>
+<tr>
+<th>Team</th>
+<th>Hours</th>
+<th>What is included</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Development</td>
+<td><strong>84-105</strong></td>
+<td>Influx extraction + WP import pipeline, 35 consolidated service builds, 10 location pages, 10 providers, 10 galleries, schema, breadcrumbs, redirects + rollback, sitemap, navigation, QA, booking destination</td>
+</tr>
+<tr>
+<td>SEO</td>
+<td><strong>70-95</strong></td>
+<td>Redirect map (1,038 rows + cross-site merge decisions), GBP/citations for 10 markets, cross-site consolidation mapping, metadata QA, launch operations, 104-day monitoring, reporting, tracking share</td>
+</tr>
+<tr>
+<td>Content</td>
+<td><strong>88-112</strong></td>
+<td>35 consolidated service bodies (heavier, merging 2-5 sources), 10 location pages, 10 provider bios, gallery, metadata</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td><strong>8-11</strong></td>
+<td>GA4/GTM/GHL/Liine test leads across ~10 markets (unchanged; tracking is per-market regardless of page count)</td>
+</tr>
+<tr>
+<td>Account/PM</td>
+<td><strong>4-7</strong></td>
+<td>Board reporting + coordination</td>
+</tr>
+<tr>
+<td><strong>TOTAL (internal)</strong></td>
+<td><strong>~256-329</strong></td>
+<td>Pre-launch critical path ~252</td>
+</tr>
+</tbody>
+</table>
+<p>Figures reflect a 30% reduction from the prior draft per management direction. External server-level redirects, DNS/CDN/hosting remain with the client dev/hosting vendor (not estimated).</p>
+<h2 id="sequencing">Sequencing</h2>
+<p>Same waves/gates as the shared methodology. Redirects carry more consolidation decisions (each of ~50 services receives 3-6 source URLs to one destination), so the redirect map needs an explicit merge-cluster review before handoff.</p>
+<h2 id="key-risks">Key risks</h2>
+<ol>
+<li><strong>Loss of local SERP coverage.</strong> A consolidated <code>/services/botox/</code> may not rank for &quot;botox scottsdale&quot; or &quot;med spa santa fe&quot; as strongly as a dedicated local page; local terms must be carried on the location page instead (title/meta/H1 + internal anchors).</li>
+<li><strong>Consolidation loss.</strong> Merging 5 pages into one risks dropping unique content if the merge is not disciplined (the precedent's &quot;preserve content blocks&quot; rule).</li>
+<li><strong>Diverges from the reference precedent.</strong> Management must explicitly accept departing from the location-scoped model the prior plans locked.</li>
+</ol>
+<div class="footer">Prepared by All In Advertising &middot; August 2026 &middot; Planning document, not production changes.</div>
+</div>
+</body>
+</html>
