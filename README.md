@@ -24,8 +24,10 @@ A client-facing presentation plus supporting technical documents for the Manor m
 - Effort figures reflect a 30% reduction from the prior draft.
 - Requires internet access to load Bootstrap and Chart.js from CDN.
 
-## Open in browser
+## Live site
 
-```powershell
-start "C:\Users\snell\Downloads\thisismanor full migration\client-facing\index.html"
-```
+The site is published via GitHub Pages at:
+
+https://allinadvertising.github.io/manor-client-facing/
+
+To preview locally, open `index.html` in a browser or serve the folder with any static file server.
