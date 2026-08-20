@@ -4,25 +4,30 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manor Multi-Site Migration | Scale &amp; Options Overview</title>
+<link rel="icon" type="image/svg+xml" href="assets/icon-color.svg">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   :root{
-    --navy:#0e1f3d; --navy2:#16294d; --ink:#17233b; --muted:#5b6b85;
-    --blue:#2563eb; --blue-soft:#eaf1ff; --green:#0f9d6c; --green-soft:#e6f7f0;
-    --amber:#d97706; --amber-soft:#fdf3e3; --red:#dc2626; --red-soft:#fdeaea;
-    --card:#ffffff; --border:#e6ecf5; --bg:#f5f7fb;
+    --blue:#3e71b8; --blue-dark:#2f5b9a; --navy:#14305e; --ink:#22334c;
+    --muted:#64778f; --gold:#f6b328; --gold-dark:#d99a10; --gold-soft:#fdf3de;
+    --blue-soft:#eaf1fa; --card:#ffffff; --border:#e7edf5; --bg:#f6f8fb;
+    --red:#c2403a; --red-soft:#fbeae9;
   }
   *{font-family:'Inter',system-ui,-apple-system,sans-serif;}
   body{background:var(--bg); color:var(--ink);}
   h1,h2,h3,h4,h5{font-weight:700; color:var(--navy); letter-spacing:-0.02em;}
-  .hero{background:linear-gradient(135deg,#0e1f3d 0%,#1d3a6b 55%,#2b4a86 100%); color:#fff; padding:4rem 0 5rem;}
-  .hero .eyebrow{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; color:#9fb6d8; font-weight:600;}
+  .hero{background:linear-gradient(135deg,#0e2444 0%,#1d3a6b 55%,#3e71b8 100%); color:#fff; padding:2.75rem 0 5rem; position:relative; overflow:hidden;}
+  .hero::after{content:""; position:absolute; right:-80px; top:-80px; width:280px; height:280px; border-radius:50%; background:radial-gradient(circle, rgba(246,179,40,.28), transparent 65%);}
+  .hero .brand-logo{height:40px; display:block; margin-bottom:1.75rem;}
+  .hero .eyebrow{letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; color:#bcd0ea; font-weight:600;}
   .hero h1{color:#fff; font-weight:800;}
-  .hero .lede{color:#c9d6ea; max-width:720px; font-size:1.05rem;}
-  .kpi{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.25rem 1.4rem; height:100%;}
+  .hero .lede{color:#d4e0f0; max-width:720px; font-size:1.05rem;}
+  .chip{display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); color:#fff; border-radius:999px; padding:.3rem .8rem; font-size:.82rem; font-weight:600;}
+  .kpi{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:1.25rem 1.4rem; height:100%; border-top:3px solid var(--blue);}
+  .kpi.gold{border-top-color:var(--gold);}
   .kpi .num{font-size:2rem; font-weight:800; color:var(--navy); line-height:1;}
   .kpi .lbl{color:var(--muted); font-size:.85rem; font-weight:500; margin-top:.35rem;}
   .section{padding:3.25rem 0;}
@@ -31,29 +36,31 @@
   .chart-wrap{position:relative; height:320px;}
   .chart-wrap.sm{height:260px;}
   .legend-dot{display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:.4rem;}
-  .table{--bs-table-hover-bg:#f4f7fc; font-size:.92rem;}
+  .table{--bs-table-hover-bg:#f2f6fb; font-size:.92rem;}
   .table thead th{font-size:.72rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); border-bottom:2px solid var(--border);}
   .badge-soft{font-weight:600; padding:.32rem .6rem; border-radius:8px; font-size:.78rem;}
-  .tier-a{background:var(--red-soft); color:#b91c1c;}
-  .tier-b{background:var(--amber-soft); color:#b45309;}
-  .tier-c{background:var(--blue-soft); color:#1d4ed8;}
-  .tier-d{background:#eef1f6; color:#5b6b85;}
+  .tier-a{background:var(--red-soft); color:#b02f2a;}
+  .tier-c{background:var(--blue-soft); color:var(--blue-dark);}
+  .tier-d{background:#eef1f6; color:var(--muted);}
   .plan{border-top:4px solid var(--blue);}
-  .plan.b{border-top:4px solid var(--green);}
+  .plan.b{border-top:4px solid var(--gold);}
   .pros li, .cons li{margin-bottom:.4rem;}
-  .pros li::marker{color:var(--green);}
+  .pros li::marker{color:var(--blue);}
   .cons li::marker{color:var(--red);}
-  .rec{background:linear-gradient(135deg,#eaf1ff,#f4f9ff); border:1px solid #d6e4ff; border-radius:16px;}
+  .rec{background:linear-gradient(135deg,#eaf1fa,#f8fafd); border:1px solid #d6e4f5; border-radius:16px;}
+  .rec .badge-soft{background:var(--gold-soft); color:var(--gold-dark);}
   .foot{color:var(--muted); font-size:.8rem;}
-  .chip{display:inline-block; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); color:#fff; border-radius:999px; padding:.3rem .8rem; font-size:.82rem; font-weight:600;}
+  .footer-logo{height:36px; opacity:.9;}
+  .mono{font-family:ui-monospace,'SF Mono',Consolas,monospace;}
 </style>
 </head>
 <body>
 
 <!-- HERO -->
 <header class="hero">
-  <div class="container">
-    <div class="eyebrow mb-2">Manor | Multi-Site Acquisition Migration</div>
+  <div class="container" style="position:relative; z-index:2;">
+    <img src="assets/logo-white-horizontal.svg" alt="Manor" class="brand-logo">
+    <div class="eyebrow mb-2">Multi-Site Acquisition Migration</div>
     <h1 class="display-4 mb-3">Bringing six med-spa brands into one</h1>
     <p class="lede mb-4">A consolidated view of the work required to move six acquired practices into thisismanor.com, preserve their search traffic, and scale the national brand. Everything below is planning only; no production changes have been made.</p>
     <div class="d-flex flex-wrap gap-2">
@@ -72,7 +79,7 @@
     <div class="row g-3">
       <div class="col-6 col-md-3"><div class="kpi"><div class="num">6</div><div class="lbl">Acquired sites (Influx CMS)</div></div></div>
       <div class="col-6 col-md-3"><div class="kpi"><div class="num">1,038</div><div class="lbl">Source URLs in sitemaps</div></div></div>
-      <div class="col-6 col-md-3"><div class="kpi"><div class="num">~10</div><div class="lbl">Physical locations</div></div></div>
+      <div class="col-6 col-md-3"><div class="kpi gold"><div class="num">~10</div><div class="lbl">Physical locations</div></div></div>
       <div class="col-6 col-md-3"><div class="kpi"><div class="num">~1,448</div><div class="lbl">Est. monthly organic visits</div></div></div>
     </div>
   </section>
@@ -128,10 +135,10 @@
       <div class="col-lg-7">
         <div class="card p-4 h-100">
           <ul class="list-unstyled mb-0">
-            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#2563eb"></span><strong class="me-2">Rebuild then redirect</strong><span class="text-muted small me-auto">new Manor page built first</span><span class="fw-bold">321</span></li>
-            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#0f9d6c"></span><strong class="me-2">Merge and redirect</strong><span class="text-muted small me-auto">consolidated into one page</span><span class="fw-bold">293</span></li>
-            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#9aa7bd"></span><strong class="me-2">Retire</strong><span class="text-muted small me-auto">no search or link value</span><span class="fw-bold">414</span></li>
-            <li class="d-flex align-items-center py-2"><span class="legend-dot" style="background:#d97706"></span><strong class="me-2">Direct redirect</strong><span class="text-muted small me-auto">Manor page already exists</span><span class="fw-bold">10</span></li>
+            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#3e71b8"></span><strong class="me-2">Rebuild then redirect</strong><span class="text-muted small me-auto">new Manor page built first</span><span class="fw-bold">321</span></li>
+            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#f6b328"></span><strong class="me-2">Merge and redirect</strong><span class="text-muted small me-auto">consolidated into one page</span><span class="fw-bold">293</span></li>
+            <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#b9c4d4"></span><strong class="me-2">Retire</strong><span class="text-muted small me-auto">no search or link value</span><span class="fw-bold">414</span></li>
+            <li class="d-flex align-items-center py-2"><span class="legend-dot" style="background:#86a9d8"></span><strong class="me-2">Direct redirect</strong><span class="text-muted small me-auto">Manor page already exists</span><span class="fw-bold">10</span></li>
           </ul>
         </div>
       </div>
@@ -150,7 +157,7 @@
           <span class="badge-soft tier-c mb-2">Option A</span>
           <h4>Location-scoped services</h4>
           <p class="text-muted">A dedicated service page for every city, matching the prior Manor migration playbooks and strongest for local search.</p>
-          <div class="rounded p-3 mb-3" style="background:#f4f7fc; font-family:monospace; font-size:.82rem;">
+          <div class="rounded p-3 mb-3 mono" style="background:#f4f7fc; font-size:.82rem;">
             /locations/{city}/services/{service}/<br>
             /locations/{city}/providers/{provider}/
           </div>
@@ -164,13 +171,13 @@
           <span class="badge-soft tier-d mb-2">Option B</span>
           <h4>Global consolidated services</h4>
           <p class="text-muted">One strong national page per service. Fewer pages, cheaper to build and maintain, but weaker on city-specific queries.</p>
-          <div class="rounded p-3 mb-3" style="background:#f4f7fc; font-family:monospace; font-size:.82rem;">
+          <div class="rounded p-3 mb-3 mono" style="background:#f4f7fc; font-size:.82rem;">
             /services/{service}/<br>
             /providers/{provider}/
           </div>
           <div class="d-flex justify-content-between border-bottom py-2"><span>New pages to build</span><span class="fw-bold">~65</span></div>
           <div class="d-flex justify-content-between border-bottom py-2"><span>Total effort</span><span class="fw-bold">~256&ndash;329 hours</span></div>
-          <div class="d-flex justify-content-between py-2"><span>Relative cost</span><span class="fw-bold text-success">~84 h cheaper (22%)</span></div>
+          <div class="d-flex justify-content-between py-2"><span>Relative cost</span><span class="fw-bold" style="color:var(--gold-dark)">~84 h cheaper (22%)</span></div>
         </div>
       </div>
     </div>
@@ -210,7 +217,7 @@
     <div class="row g-4">
       <div class="col-lg-6">
         <div class="card p-4 h-100">
-          <h5 class="text-primary">Option A · Location-scoped</h5>
+          <h5 style="color:var(--blue)">Option A · Location-scoped</h5>
           <ul class="pros small mt-3 ps-3">
             <li>Matches the prior Manor playbooks</li>
             <li>Strongest for local queries like "botox scottsdale"</li>
@@ -226,7 +233,7 @@
       </div>
       <div class="col-lg-6">
         <div class="card p-4 h-100">
-          <h5 class="text-success">Option B · Global services</h5>
+          <h5 style="color:var(--gold-dark)">Option B · Global services</h5>
           <ul class="pros small mt-3 ps-3">
             <li>Matches what Manor serves today</li>
             <li>Fewer, stronger consolidated pages</li>
@@ -243,7 +250,7 @@
     </div>
 
     <div class="rec p-4 p-md-5 mt-4">
-      <span class="badge-soft tier-c mb-2">Suggested</span>
+      <span class="badge-soft mb-2">Suggested</span>
       <h3 class="mb-2">A hybrid, focused where the equity is</h3>
       <p class="mb-1">Build location-scoped services only for the markets that actually rank locally (Scottsdale, Denver, Beverly Hills, and Marvel's Tennessee cities), and consolidate everything else into strong national pages.</p>
       <p class="mb-0"><strong>~90&ndash;100 pages · ~350&ndash;364 internal hours</strong></p>
@@ -272,19 +279,27 @@
 </div>
 
 <footer class="py-5 text-center">
-  <div class="container foot">
-    Planning document · Prepared August 2026 · Source data: live crawls, sitemaps, and Ahrefs via authenticated session.<br>
-    Figures are directional planning estimates, not GA4 or Search Console actuals.
+  <div class="container">
+    <img src="assets/logo-color-horizontal.svg" alt="Manor" class="footer-logo mb-3 d-block mx-auto">
+    <div class="foot">
+      Planning document · Prepared August 2026 · Source data: live crawls, sitemaps, and Ahrefs via authenticated session.<br>
+      Figures are directional planning estimates, not GA4 or Search Console actuals.
+    </div>
   </div>
 </footer>
 
 <script>
 const FONT = 'Inter, sans-serif';
 Chart.defaults.font.family = FONT;
-Chart.defaults.color = '#5b6b85';
+Chart.defaults.color = '#64778f';
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.boxWidth = 8;
 Chart.defaults.plugins.legend.labels.boxHeight = 8;
+
+const BLUE = '#3e71b8';
+const GOLD = '#f6b328';
+const GREY = '#b9c4d4';
+const LIGHTBLUE = '#86a9d8';
 
 const sites = ['Blume','Aere','All About Me','Marvel','Ageless','Manor legacy'];
 const traffic = [501,384,292,127,141,3];
@@ -292,19 +307,19 @@ const dr = [37,11,9,17,6,1.2];
 
 new Chart(document.getElementById('trafficChart'), {
   type: 'bar',
-  data: { labels: sites, datasets: [{ label: 'Visits / month', data: traffic, backgroundColor: ['#2563eb','#0f9d6c','#0f9d6c','#0f9d6c','#0f9d6c','#9aa7bd'], borderRadius: 8 }] },
+  data: { labels: sites, datasets: [{ label: 'Visits / month', data: traffic, backgroundColor: [GOLD, BLUE, BLUE, BLUE, BLUE, GREY], borderRadius: 8 }] },
   options: { indexAxis:'y', plugins:{ legend:{display:false} }, scales:{ x:{ grid:{ color:'#eef2f8' } }, y:{ grid:{ display:false } } } }
 });
 
 new Chart(document.getElementById('drChart'), {
   type: 'bar',
-  data: { labels: sites, datasets: [{ label: 'Domain Rating', data: dr, backgroundColor: ['#dc2626','#0f9d6c','#0f9d6c','#0f9d6c','#0f9d6c','#9aa7bd'], borderRadius: 8 }] },
+  data: { labels: sites, datasets: [{ label: 'Domain Rating', data: dr, backgroundColor: [GOLD, BLUE, BLUE, BLUE, BLUE, GREY], borderRadius: 8 }] },
   options: { plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true, grid:{ color:'#eef2f8' } }, x:{ grid:{ display:false } } } }
 });
 
 new Chart(document.getElementById('dispositionChart'), {
   type: 'doughnut',
-  data: { labels: ['Rebuild then redirect','Merge and redirect','Retire','Direct redirect'], datasets: [{ data: [321,293,414,10], backgroundColor: ['#2563eb','#0f9d6c','#9aa7bd','#d97706'], borderWidth:2, borderColor:'#fff' }] },
+  data: { labels: ['Rebuild then redirect','Merge and redirect','Retire','Direct redirect'], datasets: [{ data: [321,293,414,10], backgroundColor: [BLUE, GOLD, GREY, LIGHTBLUE], borderWidth:2, borderColor:'#fff' }] },
   options: { cutout:'62%', plugins:{ legend:{ position:'bottom' } } }
 });
 
@@ -315,8 +330,8 @@ const planB = [95,83,100,10,6];
 new Chart(document.getElementById('hoursChart'), {
   type: 'bar',
   data: { labels: depts, datasets: [
-    { label:'Option A · location-scoped', data:planA, backgroundColor:'#2563eb', borderRadius:6 },
-    { label:'Option B · global', data:planB, backgroundColor:'#0f9d6c', borderRadius:6 }
+    { label:'Option A · location-scoped', data:planA, backgroundColor:BLUE, borderRadius:6 },
+    { label:'Option B · global', data:planB, backgroundColor:GOLD, borderRadius:6 }
   ]},
   options: { plugins:{ legend:{ position:'bottom' } }, scales:{ y:{ beginAtZero:true, title:{ display:true, text:'Hours' }, grid:{ color:'#eef2f8' } }, x:{ grid:{ display:false } } } }
 });
