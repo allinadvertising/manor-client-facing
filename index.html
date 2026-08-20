@@ -128,11 +128,13 @@
       <h2 class="mt-1">Four outcomes for 1,038 URLs</h2>
       <p class="text-muted">Nearly 40% of source URLs are low-value galleries and utility pages that can be retired rather than migrated.</p>
     </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div class="card p-4">
-          <div class="chart-wrap mx-auto" style="max-width:340px;"><canvas id="dispositionChart"></canvas></div>
-          <ul class="list-unstyled mb-0 mt-3 mx-auto" style="max-width:440px;">
+    <div class="row g-4 align-items-center">
+      <div class="col-lg-5">
+        <div class="card p-4"><div class="chart-wrap"><canvas id="dispositionChart"></canvas></div></div>
+      </div>
+      <div class="col-lg-7">
+        <div class="card p-4 h-100">
+          <ul class="list-unstyled mb-0">
             <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#3e71b8"></span><strong class="me-2">Rebuild then redirect</strong><span class="text-muted small me-auto">new Manor page built first</span><span class="fw-bold">321</span></li>
             <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#f6b328"></span><strong class="me-2">Merge and redirect</strong><span class="text-muted small me-auto">consolidated into one page</span><span class="fw-bold">293</span></li>
             <li class="d-flex align-items-center py-2 border-bottom"><span class="legend-dot" style="background:#b9c4d4"></span><strong class="me-2">Retire</strong><span class="text-muted small me-auto">no search or link value</span><span class="fw-bold">414</span></li>
@@ -318,7 +320,7 @@ new Chart(document.getElementById('drChart'), {
 new Chart(document.getElementById('dispositionChart'), {
   type: 'doughnut',
   data: { labels: ['Rebuild then redirect','Merge and redirect','Retire','Direct redirect'], datasets: [{ data: [321,293,414,10], backgroundColor: [BLUE, GOLD, GREY, LIGHTBLUE], borderWidth:2, borderColor:'#fff' }] },
-  options: { cutout:'62%', plugins:{ legend:{ display:false } } }
+  options: { cutout:'62%', plugins:{ legend:{ position:'bottom' } } }
 });
 
 const depts = ['Development','SEO','Content','Analytics','Account / PM'];
